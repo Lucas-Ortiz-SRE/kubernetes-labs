@@ -18,6 +18,12 @@ spec:
         image: nginx:alpine
         ports:
         - containerPort: 80
+        env: # <--- ADICIONAMOS ISSO AQUI
+        - name: MINHA_CHAVE_API # O nome da variável dentro do Linux do container
+          valueFrom:
+            secretKeyRef:
+              name: api-key-secret # O nome do Secret que criamos no Passo 1
+              key: CHAVE_API # A chave exata dentro do Secret
         volumeMounts:
         - name: html-volume
           mountPath: /usr/share/nginx/html
