@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  namespace: default
+  namespace: production # <-- Atualizado
 spec:
   replicas: 1
   selector:
@@ -18,12 +18,12 @@ spec:
         image: nginx:alpine
         ports:
         - containerPort: 80
-        env: # <--- ADICIONAMOS ISSO AQUI
-        - name: MINHA_CHAVE_API # O nome da variável dentro do Linux do container
+        env: # <-- Lendo o Secret que criamos no Passo 2
+        - name: MINHA_CHAVE_API
           valueFrom:
             secretKeyRef:
-              name: api-key-secret # O nome do Secret que criamos no Passo 1
-              key: CHAVE_API # A chave exata dentro do Secret
+              name: api-key-secret
+              key: CHAVE_API
         volumeMounts:
         - name: html-volume
           mountPath: /usr/share/nginx/html
